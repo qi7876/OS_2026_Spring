@@ -5,7 +5,7 @@ void add_ready_thread(thread *ready_thread)
 }
 void schedule()
 {
-    if (current_thread != 0)
+    if (current_thread != &idle_thread)
     {
         ready_queue.push_back(current_thread);
     }
@@ -17,6 +17,19 @@ void schedule()
     }
     else
     {
-        current_thread = 0;
+        current_thread = &idle_thread;
+    }
+}
+
+void current_thread_finished()
+{
+    if (ready_queue.size() != 0)
+    {
+        current_thread = ready_queue.front();
+        ready_queue.pop_front();
+    }
+    else
+    {
+        current_thread = &idle_thread;
     }
 }
