@@ -12,5 +12,6 @@ typedef std::deque<pthread> thread_queue;
 extern thread_queue ready_queue;
 extern thread *current_thread;
 extern thread idle_thread;
+extern thread_queue blocked_queue; 
 
 #endif
