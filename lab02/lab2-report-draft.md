@@ -1,4 +1,16 @@
-# Linux 0.11 地址映射实验报告草稿
+---
+title: "Lab2 实验报告"
+author: "汪琦 2023010905015"
+documentclass: article
+papersize: a4
+geometry:
+  - margin=2.5cm
+fig-pos: H
+mainfont: Times New Roman
+CJKmainfont: Songti SC
+monofont: Maple Mono NF CN
+CJKmonofont: Maple Mono NF CN
+---
 
 ## 一、实验目的
 
@@ -91,11 +103,9 @@ IA-32 保护模式下，程序看到的地址需要经过两级转换：
    bochs -q -f mybochsrc-hd.bxrc -debugger
    ```
 
-   ![image-20260513153747001](./lab2-report-draft.assets/image-20260513153747001.png)
-
 2. 在 Bochs 调试器中输入 `c`，继续启动 Linux 0.11。
 
-   ![image-20260513154804523](./lab2-report-draft.assets/image-20260513154804523.png)
+\reportimagepair{./lab2-report-draft.assets/image-20260513153747001.png}{启动 Bochs}{./lab2-report-draft.assets/image-20260513154804523.png}{启动 Linux 0.11}{Bochs 启动与 Linux 0.11 启动}
 
 3. 在 Linux 0.11 中创建并编译实验程序：
 
@@ -104,15 +114,13 @@ IA-32 保护模式下，程序看到的地址需要经过两级转换：
    ./a.out
    ```
 
-   ![image-20260513160039560](./lab2-report-draft.assets/image-20260513160039560.png)
-
 4. 记录程序输出的变量地址：
 
    ```text
    the address of j is 0x3004
    ```
 
-   ![image-20260513160110376](./lab2-report-draft.assets/image-20260513160110376.png)
+\reportimagepair{./lab2-report-draft.assets/image-20260513160039560.png}{创建并编译程序}{./lab2-report-draft.assets/image-20260513160110376.png}{程序输出}{实验程序编译运行与变量地址输出}
 
 5. 程序进入死循环后，在 Bochs 调试器中暂停执行，查看段寄存器和控制寄存器：
 
@@ -121,13 +129,13 @@ IA-32 保护模式下，程序看到的地址需要经过两级转换：
    creg				
    ```
 
-   ![image-20260513160211840](./lab2-report-draft.assets/image-20260513160211840.png)
-
 6. 根据 DS 和 LDTR/GDTR 找到当前进程数据段描述符，计算 `j` 的线性地址。
 
    可知：`ds base = 0x10000000`，`CR3 = 0x00000000`，`&j = 0x3004`
 
    故`j`的线性地址为`0x10003004`
+
+\reportsingleimage{./lab2-report-draft.assets/image-20260513160211840.png}{查看寄存器}
 
 7. 根据 CR3 和线性地址查找页目录项、页表项，计算 `j` 的物理地址。
 
@@ -159,8 +167,6 @@ IA-32 保护模式下，程序看到的地址需要经过两级转换：
    0x0000000000000100 <bogus+0>: 0x00fa5027
    ```
 
-   ![image-20260513162607286](./lab2-report-draft.assets/image-20260513162607286.png)
-
    页目录项的高 20 位为页表物理基址，低 12 位为属性位，因此：
 
    ```text
@@ -187,7 +193,7 @@ IA-32 保护模式下，程序看到的地址需要经过两级转换：
    0x0000000000fa500c <bogus+0>: 0x00f9c067
    ```
 
-   ![image-20260513162555461](./lab2-report-draft.assets/image-20260513162555461.png)
+\reportimagepair{./lab2-report-draft.assets/image-20260513162607286.png}{查看页目录项}{./lab2-report-draft.assets/image-20260513162555461.png}{查看页表项}{页目录项与页表项}
 
    页表项的高 20 位为物理页框基址，低 12 位为属性位，因此：
 
@@ -215,8 +221,6 @@ IA-32 保护模式下，程序看到的地址需要经过两级转换：
    0x0000000000f9c004 <bogus+0>: 0x00123456
    ```
 
-   ![image-20260513162538300](./lab2-report-draft.assets/image-20260513162538300.png)
-
    该值与程序中 `j = 0x123456` 一致，说明物理地址计算正确。
 
 9. 使用 `setpmem` 将该物理地址处的 4 字节值改为 `0`。
@@ -225,13 +229,11 @@ IA-32 保护模式下，程序看到的地址需要经过两级转换：
    setpmem 0x00f9c004 4 0
    ```
 
-   ![image-20260513162457919](./lab2-report-draft.assets/image-20260513162457919.png)
+\reportimagepair{./lab2-report-draft.assets/image-20260513162538300.png}{查看内存}{./lab2-report-draft.assets/image-20260513162457919.png}{修改内存}{物理内存验证与修改}
 
 10. 在 Bochs 调试器中输入 `c` 继续运行，观察程序是否跳出循环并输出正常结束信息。
 
-    ![image-20260513162630536](./lab2-report-draft.assets/image-20260513162630536.png)
-
-    ![image-20260513162638505](./lab2-report-draft.assets/image-20260513162638505.png)
+\reportimagepair{./lab2-report-draft.assets/image-20260513162630536.png}{继续运行 Linux 0.11}{./lab2-report-draft.assets/image-20260513162638505.png}{程序退出}{继续运行后的程序输出}
 
     程序跳出了循环并且正常结束。
 

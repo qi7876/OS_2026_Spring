@@ -1,0 +1,79 @@
+% 中文与英文字体微调
+\usepackage{fontspec}
+\usepackage{xeCJK}
+
+% 标题格式
+\usepackage{titlesec}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+
+% 一级标题居中
+\titleformat{\section}
+  {\centering\Large\bfseries}
+  {\thesection}
+  {1em}
+  {}
+
+% 二级及以下标题靠左
+\titleformat{\subsection}
+  {\raggedright\large\bfseries}
+  {\thesubsection}
+  {1em}
+  {}
+
+\titleformat{\subsubsection}
+  {\raggedright\normalsize\bfseries}
+  {\thesubsubsection}
+  {1em}
+  {}
+
+\setkeys{Gin}{width=0.5\linewidth,keepaspectratio}
+
+\newcommand{\reportimagepair}[5]{%
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{0.49\linewidth}
+\centering
+\includegraphics[width=\linewidth,keepaspectratio]{#1}
+\caption{#2}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.49\linewidth}
+\centering
+\includegraphics[width=\linewidth,keepaspectratio]{#3}
+\caption{#4}
+\end{subfigure}
+\caption{#5}
+\end{figure}
+}
+
+\newcommand{\reportsingleimage}[2]{%
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth,keepaspectratio]{#1}
+\caption{#2}
+\end{figure}
+}
+
+% 段落首行缩进
+% \setlength{\parindent}{2em}
+
+% 段间距：按中文论文习惯通常不额外拉开
+\setlength{\parskip}{0pt}
+
+% 让标题后的第一段也缩进
+% \usepackage{indentfirst}
+
+% 代码块长行自动换行
+\usepackage{fvextra}
+\fvset{
+  breaklines=true,
+  breakanywhere=true,
+  breaksymbolleft={}
+}
+
+% 更舒服的行距
+\usepackage{setspace}
+\setstretch{1.2}
